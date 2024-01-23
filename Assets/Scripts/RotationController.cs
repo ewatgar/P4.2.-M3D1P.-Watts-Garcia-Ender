@@ -5,8 +5,8 @@ public enum EjesRotacion { MouseX, MouseY, MouseXY }
 
 public class RotationController : MonoBehaviour
 {
-    [SerializeField] public float maxRotacionY = 180;
-    [SerializeField] public float minRotacionY = -180;
+    [SerializeField] public float maxRotacionY = 90;
+    [SerializeField] public float minRotacionY = -90;
     [SerializeField] public float velocidadRotacion = 320;
     public EjesRotacion modoRotacion = EjesRotacion.MouseX;
 

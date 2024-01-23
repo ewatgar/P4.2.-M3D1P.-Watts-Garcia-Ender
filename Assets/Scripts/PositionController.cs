@@ -3,8 +3,9 @@ using UnityEngine;
 public class PositionController : MonoBehaviour
 {
     [Range(1, 20)] public float speed = 8;
-    [SerializeField] public float jumpForce = 5;
-    [SerializeField] public float gravity = 4;
+    [SerializeField] public float velocidadArriba = 3;
+    [SerializeField] public float velocidadMin = -10;
+    [SerializeField] public float gravedad = 50;
     private CharacterController characterController;
 
     void Start()
@@ -16,7 +17,7 @@ public class PositionController : MonoBehaviour
     {
         float incPosicionX = Input.GetAxis("Horizontal")*speed*Time.deltaTime;
         float incPosicionZ = Input.GetAxis("Vertical")*speed*Time.deltaTime;
-        float incPosicionY = -gravity*Time.deltaTime;
+        float incPosicionY = 0;
 
         /*
         if (Input.GetKey(KeyCode.Space)){
@@ -25,15 +26,18 @@ public class PositionController : MonoBehaviour
             incPosicionY = -speed*Time.deltaTime;
         }*/
 
-        if (Input.GetKey(KeyCode.Space) && characterController.isGrounded){
-            incPosicionY = jumpForce*0.01f;
-        } else if (Input.GetKey(KeyCode.LeftShift)){
-            incPosicionY = -gravity*Time.deltaTime;
+        if (Input.GetKey(KeyCode.Space)){
+            incPosicionY = velocidadArriba;
+        } else if (incPosicionY > velocidadMin){
+            incPosicionY += gravedad*Time.deltaTime;
+            if (incPosicionY < velocidadMin){
+                incPosicionY = velocidadMin;
+            }
         }
 
         //transform.Translate(new Vector3(incPosicionX,0,incPosicionZ),Space.Self);
         //transform.Translate(new Vector3(0,incPosicionY,0),Space.World);
         characterController.Move(transform.TransformDirection(new Vector3(incPosicionX,0,incPosicionZ)));
-        characterController.Move(new Vector3(0,incPosicionY,0));
+        characterController.Move(new Vector3(0,incPosicionY/10,0));
     }
 }
